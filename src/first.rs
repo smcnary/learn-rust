@@ -1,3 +1,6 @@
+
+#![allow(unused)]
+
 use std::mem;
 
 pub struct List {
@@ -13,18 +16,18 @@ struct Node {
     elem: i32,
     next: Link,
 }
-// pub says we want people outside this module to be able to use List
-
 
 impl List {
     pub fn new() -> Self {
         List { head: Link::Empty }
     }
+
     pub fn push(&mut self, elem: i32) {
         let new_node = Box::new(Node {
             elem: elem,
             next: mem::replace(&mut self.head, Link::Empty),
         });
+
         self.head = Link::More(new_node);
     }
 
@@ -37,10 +40,6 @@ impl List {
             }
         }
     }
-
-
-    
-    
 }
 
 impl Drop for List {
@@ -53,11 +52,12 @@ impl Drop for List {
     }
 }
 
-
+#[cfg(test)]
 mod test {
+    use super::List;
+
     #[test]
     fn basics() {
-        use super::List;
         let mut list = List::new();
 
         // Check empty list behaves right
@@ -85,3 +85,4 @@ mod test {
         assert_eq!(list.pop(), None);
     }
 }
+
